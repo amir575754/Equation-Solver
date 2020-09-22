@@ -16,7 +16,7 @@ from string import digits
 from flask import Flask
 from flask_api import status
 
-from consts import EquationConsts
+from consts import EquationConsts, RabbitMQConsts
 from rabbitmq_utilities import publish_message
 
 app = Flask(__name__)
@@ -53,7 +53,7 @@ def publish_equation(equation: str):
     for it be solved by the solver component later on.
     """
     try:
-        publish_message(equation)
+        publish_message(equation, RabbitMQConsts.BROKER_IP, RabbitMQConsts.EXCHANGE_NAME, RabbitMQConsts.EXCHANGE_TYPE)
     except RuntimeError as exception:
         print(exception)
 

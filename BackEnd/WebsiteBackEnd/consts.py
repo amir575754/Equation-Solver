@@ -13,7 +13,7 @@ Change Log:
 
 
 class RabbitMQConsts:
-    SERVER_IP = "10.100.102.15"
+    BROKER_IP = "10.100.102.15"
     EXCHANGE_NAME = "equations"
     EXCHANGE_TYPE = "fanout"
 

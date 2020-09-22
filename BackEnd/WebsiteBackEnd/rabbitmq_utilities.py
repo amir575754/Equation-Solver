@@ -13,19 +13,17 @@ Change Log:
 
 import pika
 
-from consts import RabbitMQConsts
 
-
-def publish_message(message: str):
+def publish_message(message: str, broker_ip: str, exchange_name: str, exchange_type: str):
     """
-    This function publishes the message to the RabbitMQ Exchange
-    for it be solved by the solver component later on.
+    This function publishes the message to the RabbitMQ Exchange located
+    at the rabbit broker provided.
     """
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RabbitMQConsts.SERVER_IP))
+        pika.ConnectionParameters(host=broker_ip))
     channel = connection.channel()
-    channel.exchange_declare(exchange=RabbitMQConsts.EXCHANGE_NAME, exchange_type=RabbitMQConsts.EXCHANGE_TYPE,
+    channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type,
                              durable=True)
-    channel.basic_publish(exchange=RabbitMQConsts.EXCHANGE_NAME, routing_key='', body=message)
+    channel.basic_publish(exchange=exchange_name, routing_key='', body=message)
     print(f'Published {message} to the exchange')
     connection.close()
