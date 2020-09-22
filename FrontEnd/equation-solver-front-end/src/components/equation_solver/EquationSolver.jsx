@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 
 class EquationSolver extends Component {
+    SERVER_IP = "localhost";
+    SERVER_PORT = 5000;
+    UPLOAD_EQUATION_URL = `http://${this.SERVER_IP}:${this.SERVER_PORT}/upload_equation/`;
+
     handleSolveClick = () => {
         /*
         When the solve button is clicked, takes the equation from equationInput,
@@ -10,10 +14,10 @@ class EquationSolver extends Component {
         const equationInput = document.getElementById("equationInput");
         const equationValue = this.removeRedundantCharacters(equationInput.value);
         equationInput.value = "";
-        console.log(equationValue);
-        // TODO: send the equation to the server.
+        this.sendEquationToServer(equationValue);
+        console.log(equationValue, "Done!");
     };
-    
+
     handleDeleteClick = () => {
         /*
         When the delete button is clicked, it deletes the text
@@ -21,6 +25,12 @@ class EquationSolver extends Component {
         */
         const equationInput = document.getElementById("equationInput");
         equationInput.value = "";
+    };
+
+    sendEquationToServer = async function (equation) {
+        let response = await fetch(`${this.UPLOAD_EQUATION_URL}${equation}`);
+        let data = await response.text();
+        console.log(data, "Sent");
     };
 
     removeRedundantCharacters = (expression) => {
