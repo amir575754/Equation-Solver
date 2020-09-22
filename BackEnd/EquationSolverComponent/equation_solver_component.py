@@ -63,7 +63,6 @@ def insert_equation_to_db(original: str, solution: list, time: float):
     """
     try:
         db_handler = EquationsDBHandler()
-        db_handler.initialize_equations_table()
         db_handler.insert_new_equation(original, solution.__str__(), time)
         db_handler.close()
     except SQLiteError as exception:

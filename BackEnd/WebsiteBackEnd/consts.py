@@ -25,9 +25,4 @@ class DBConsts:
                             'Original text NOT NULL, ' \
                             'Solution text NOT NULL, ' \
                             'Time real NOT NULL)'
-    INSERT_EQUATION_TEMPLATE = 'INSERT INTO {} (' \
-                               'Original, ' \
-                               'Solution, ' \
-                               'Time)' \
-                               " VALUES ('{}', '{}', {})"
     QUERY_ALL_EQUATIONS = 'SELECT Original, Solution, Time FROM {}'
