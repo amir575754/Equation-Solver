@@ -13,11 +13,11 @@ Change Log:
 
 from string import digits
 
-import pika
 from flask import Flask
 from flask_api import status
 
-from consts import EquationConsts, RabbitMQConsts
+from consts import EquationConsts
+from rabbitmq_utilities import publish_message
 
 app = Flask(__name__)
 
@@ -52,14 +52,10 @@ def publish_equation(equation: str):
     This function publishes the equation to the RabbitMQ Exchange
     for it be solved by the solver component later on.
     """
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RabbitMQConsts.SERVER_IP))
-    channel = connection.channel()
-    channel.exchange_declare(exchange=RabbitMQConsts.EXCHANGE_NAME, exchange_type=RabbitMQConsts.EXCHANGE_TYPE,
-                             durable=True)
-    channel.basic_publish(exchange=RabbitMQConsts.EXCHANGE_NAME, routing_key='', body=equation)
-    print(f'Published {equation} to the exchange')
-    connection.close()
+    try:
+        publish_message(equation)
+    except RuntimeError as exception:
+        print(exception)
 
 
 @app.route('/upload_equation/<equation>')
