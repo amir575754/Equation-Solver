@@ -16,7 +16,3 @@ class RabbitMQConsts:
     BROKER_IP = "10.100.102.15"
     EXCHANGE_NAME = "equations"
     EXCHANGE_TYPE = "fanout"
-
-
-class EquationConsts:
-    SPLIT_CHARACTER = "="

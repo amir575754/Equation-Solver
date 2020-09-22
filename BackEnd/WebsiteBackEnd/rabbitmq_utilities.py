@@ -22,8 +22,7 @@ def publish_message(message: str, broker_ip: str, exchange_name: str, exchange_t
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=broker_ip))
     channel = connection.channel()
-    channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type,
-                             durable=True)
+    channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type, durable=True)
     channel.basic_publish(exchange=exchange_name, routing_key='', body=message)
     print(f'Published {message} to the exchange')
     connection.close()
