@@ -12,10 +12,13 @@ Change Log:
 """
 
 from flask import Flask
+from flask.json import dumps
 from flask_api import status
+from sqlite3 import Error as SQLiteError
 
 from consts import RabbitMQConsts
 from rabbitmq_utilities import publish_message
+from equations_db_handler import EquationsDBHandler
 
 app = Flask(__name__)
 
@@ -32,15 +35,20 @@ def publish_equation(equation: str):
 
 
 @app.route('/equations')
-def upload_equation_route(equation: str):
+def equations_route():
     """
-    Responsible for uploading a new equation to the equations rabbit queue.
+    Responsible for returning a json of all the dictionaries
     """
-    publish_equation(equation)
-    print(f'{equation} Published!')
-    equation_response = app.make_response(("", status.HTTP_200_OK))
-    equation_response.headers["Access-Control-Allow-Origin"] = "*"
-    return equation_response
+    equation_list = []
+    try:
+        db_handler = EquationsDBHandler()
+        equation_list = db_handler.get_equations_json()
+    except SQLiteError as exception:
+        print(exception)
+    finally:
+        equation_response = app.make_response(dumps({'equations': equation_list}))
+        equation_response.headers["Access-Control-Allow-Origin"] = "*"
+        return equation_response
 
 
 @app.route('/upload_equation/<equation>')

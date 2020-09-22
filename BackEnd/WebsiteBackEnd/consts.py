@@ -26,3 +26,9 @@ class DBConsts:
                             'Solution text NOT NULL, ' \
                             'Time real NOT NULL)'
     QUERY_ALL_EQUATIONS = 'SELECT Original, Solution, Time FROM {}'
+
+
+class JSONConsts:
+    ORIGINAL_KEY = 'original'
+    SOLUTION_KEY = 'solution'
+    TIME_KEY = 'time'

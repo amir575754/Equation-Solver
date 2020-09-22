@@ -3,17 +3,23 @@ import React, { Component } from "react";
 class SolvedEquationsTable extends Component {
 
     renderTableRow = (equation, equationIndex) => {
+        /*
+        Renders a table row given its index and information.
+        */
         return (
             <tr key={equationIndex}>
                 <th scope="row">{parseInt(equationIndex) + 1}</th>
                 <td>{equation.original}</td>
-                <td>{equation.solved}</td>
+                <td>{equation.solution}</td>
                 <td>{equation.time}</td>
             </tr>
         );
     };
 
     renderTableRows = (equations) => {
+        /*
+        Renders a table given its information.
+        */
         const tableRows = [];
         for (let equationIndex in equations) {
             tableRows.push(
@@ -24,7 +30,6 @@ class SolvedEquationsTable extends Component {
     };
 
     render() {
-        // console.log(this.props.equations);
         return (
             <table className="table">
                 <thead>
