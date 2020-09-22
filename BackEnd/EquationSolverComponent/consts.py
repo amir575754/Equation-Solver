@@ -20,14 +20,18 @@ class RabbitMQConsts:
 
 
 class DBConsts:
-    DB_SAVE_FILE = r'D:\EquationSolver\BackEnd'
-    SOLUTIONS_TABLE_NAME = 'solutions'
+    DB_SAVE_FILE = r'D:\EquationSolver\BackEnd\equations.db'
+    EQUATIONS_TABLE_NAME = 'equations'
     CREATE_TABLE_TEMPLATE = 'CREATE TABLE {} (' \
                             'Original text NOT NULL, ' \
                             'Solution text NOT NULL, ' \
-                            'Time text NOT NULL PRIMARY KEY, ' \
-                            'Address text, ' \
-                            'Email text)'
+                            'Time real NOT NULL)'
+    INSERT_EQUATION_TEMPLATE = 'INSERT INTO {} (' \
+                               'Original, ' \
+                               'Solution, ' \
+                               'Time)' \
+                               " VALUES ('{}', '{}', {})"
+    QUERY_ALL_EQUATIONS = 'SELECT Original, Solution, Time FROM {}'
 
 
 class EquationConsts:

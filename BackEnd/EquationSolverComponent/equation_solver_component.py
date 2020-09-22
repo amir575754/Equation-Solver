@@ -12,9 +12,12 @@ Change Log:
 """
 
 import pika
+from timeit import default_timer as timer
 from sympy import symbols, solve, Eq
+from sqlite3 import Error as SQLiteError
 
 from consts import RabbitMQConsts, EquationConsts
+from equation_db_handler import EquationsDBHandler
 from equation_utilities import pythonize_equation
 
 
@@ -44,13 +47,25 @@ def new_equation_callback(channel: pika.adapters.blocking_connection.BlockingCha
     """
     Called when a new equation is consumed from the line.
     """
+    time_before_solving_equation = timer()
     equation = body.decode()
-    print(f'New Equation Received: {equation}')
     final_equation = pythonize_equation(equation)
-    # TODO: push solution to DB
     solution = solve_equation(final_equation)
-    print(solution)
+    time_to_solve_equation = timer() - time_before_solving_equation
+    insert_equation_to_db(equation, solution, time_to_solve_equation)
+    print(f'New Equation Solved: {equation} - {solution}')
     channel.basic_ack(delivery_tag=method.delivery_tag)
+
+
+def insert_equation_to_db(original: str, solution: list, time: float):
+    """
+    Receives a new equation's details and inserts it to the DB.
+    """
+    try:
+        db_handler = EquationsDBHandler()
+        db_handler.insert_new_equation(original, solution.__str__(), time)
+    except SQLiteError as exception:
+        print(exception)
 
 
 def declare_consuming_channel(broker_ip: str, exchange_name: str, exchange_type: str,
@@ -74,10 +89,11 @@ def consume_equations():
     Connects to the rabbit server and starts solving equations.
     After every equation solved, it pushed the result to a DB.
     """
+    channel = declare_consuming_channel(RabbitMQConsts.BROKER_IP, RabbitMQConsts.EXCHANGE_NAME,
+                                        RabbitMQConsts.EXCHANGE_TYPE, RabbitMQConsts.QUEUE_NAME)
+    channel.start_consuming()
     try:
-        channel = declare_consuming_channel(RabbitMQConsts.BROKER_IP, RabbitMQConsts.EXCHANGE_NAME,
-                                            RabbitMQConsts.EXCHANGE_TYPE, RabbitMQConsts.QUEUE_NAME)
-        channel.start_consuming()
+        pass
     except Exception as exception:
         print(f'{type(exception)}: {exception}')
 
