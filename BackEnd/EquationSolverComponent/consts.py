@@ -20,7 +20,7 @@ class RabbitMQConsts:
 
 
 class DBConsts:
-    DB_SAVE_FILE = r'D:\EquationSolver\BackEnd\equations.db'
+    DB_SAVE_FILE = r'D:\EquationSolver\BackEnd\equations_history.db'
     EQUATIONS_TABLE_NAME = 'equations'
     CREATE_TABLE_TEMPLATE = 'CREATE TABLE {} (' \
                             'Original text NOT NULL, ' \

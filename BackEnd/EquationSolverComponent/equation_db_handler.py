@@ -83,20 +83,3 @@ class EquationsDBHandler(object):
                 f'An integrity error occurred when inserting the new equation: {exception}')
         except DatabaseError as exception:
             raise SQLiteError(f'A database error occurred when inserting the new equation: {exception}')
-
-    def query_all_equations(self) -> list:
-        """
-        Returns a list of tuples of all equations
-        """
-        query = DBConsts.QUERY_ALL_EQUATIONS.format(DBConsts.EQUATIONS_TABLE_NAME)
-        try:
-            self.cursor.execute(query)
-            results = self.cursor.fetchall()
-            return [] if results is None else results
-        except ProgrammingError:
-            raise SQLiteError(f'A programming error occurred when querying the DB: {query}')
-        except IntegrityError as exception:
-            raise SQLiteError(
-                f'An integrity error occurred when querying the DB: {exception}')
-        except DatabaseError as exception:
-            raise SQLiteError(f'A database error occurred when querying the DB: {exception}')

@@ -16,3 +16,18 @@ class RabbitMQConsts:
     BROKER_IP = "10.100.102.15"
     EXCHANGE_NAME = "equations"
     EXCHANGE_TYPE = "fanout"
+
+
+class DBConsts:
+    DB_SAVE_FILE = r'D:\EquationSolver\BackEnd\equations_history.db'
+    EQUATIONS_TABLE_NAME = 'equations'
+    CREATE_TABLE_TEMPLATE = 'CREATE TABLE {} (' \
+                            'Original text NOT NULL, ' \
+                            'Solution text NOT NULL, ' \
+                            'Time real NOT NULL)'
+    INSERT_EQUATION_TEMPLATE = 'INSERT INTO {} (' \
+                               'Original, ' \
+                               'Solution, ' \
+                               'Time)' \
+                               " VALUES ('{}', '{}', {})"
+    QUERY_ALL_EQUATIONS = 'SELECT Original, Solution, Time FROM {}'

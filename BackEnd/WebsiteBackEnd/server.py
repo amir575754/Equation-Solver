@@ -31,6 +31,18 @@ def publish_equation(equation: str):
         print(exception)
 
 
+@app.route('/equations')
+def upload_equation_route(equation: str):
+    """
+    Responsible for uploading a new equation to the equations rabbit queue.
+    """
+    publish_equation(equation)
+    print(f'{equation} Published!')
+    equation_response = app.make_response(("", status.HTTP_200_OK))
+    equation_response.headers["Access-Control-Allow-Origin"] = "*"
+    return equation_response
+
+
 @app.route('/upload_equation/<equation>')
 def upload_equation_route(equation: str):
     """
