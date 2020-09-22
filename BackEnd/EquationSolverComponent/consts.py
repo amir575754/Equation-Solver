@@ -31,7 +31,6 @@ class DBConsts:
                                'Solution, ' \
                                'Time)' \
                                " VALUES ('{}', '{}', {})"
-    QUERY_ALL_EQUATIONS = 'SELECT Original, Solution, Time FROM {}'
 
 
 class EquationConsts:
