@@ -15,7 +15,6 @@ class EquationSolver extends Component {
         const equationValue = this.removeRedundantCharacters(equationInput.value);
         equationInput.value = "";
         this.sendEquationToServer(equationValue);
-        console.log(equationValue, "Done!");
     };
 
     handleDeleteClick = () => {
@@ -28,17 +27,25 @@ class EquationSolver extends Component {
     };
 
     sendEquationToServer = async function (equation) {
-        let response = await fetch(`${this.UPLOAD_EQUATION_URL}${equation}`);
-        let data = await response.text();
-        console.log(data, "Sent");
+        /*
+        Sends a new equation to the server.
+        */
+        try {
+            const response = await fetch(`${this.UPLOAD_EQUATION_URL}${equation}`);
+            const data = await response.text();
+            
+        } catch (error) {
+            console.log("An error occurred when sending the new equation");
+        }
+
     };
 
     removeRedundantCharacters = (expression) => {
         /*
-        Removes all spaces from the equations and replaces the sign of power
-        with python's sign of power. Returns the new expression.
+        Removes all spaces from the equation and moves it to lower case.
+        Returns the new expression.
         */
-        return expression.replaceAll(" ", "").replaceAll("^", "**");
+        return expression.replaceAll(" ", "").toLowerCase();
     };
 
 

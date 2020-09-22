@@ -12,11 +12,11 @@ Change Log:
 """
 
 
-class ServerConsts:
-    IP = "localhost"
-    PORT = 8080
+class RabbitMQConsts:
+    SERVER_IP = "10.100.102.15"
+    EXCHANGE_NAME = "equations"
+    EXCHANGE_TYPE = "fanout"
 
 
-class HTTPStatusCodes:
-    OK = 200
-    BAD_REQUEST = 400
+class EquationConsts:
+    SPLIT_CHARACTER = "="
